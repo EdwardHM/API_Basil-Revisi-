@@ -16,21 +16,21 @@ class DB_Functions {
       
  }
 
- public function simpanUser($nama, $email, $password) {
+ public function simpanUser($nama, $phone, $password) {
      $uuid = uniqid('', true);
      $hash = $this->hashSSHA($password);
      $encrypted_password = $hash["encrypted"]; // encrypted password
      $salt = $hash["salt"]; // salt
 
-     $stmt = $this->conn->prepare("INSERT INTO tbl_user(unique_id, nama, email, encrypted_password, salt) VALUES(?, ?, ?, ?, ?)");
-     $stmt->bind_param("sssss", $uuid, $nama, $email, $encrypted_password, $salt);
+     $stmt = $this->conn->prepare("INSERT INTO tbl_user(unique_id, nama, phone, encrypted_password, salt) VALUES(?, ?, ?, ?, ?)");
+     $stmt->bind_param("sssss", $uuid, $nama, $phone, $encrypted_password, $salt);
      $result = $stmt->execute();
      $stmt->close();
 
      // cek jika sudah sukses
      if ($result) {
-         $stmt = $this->conn->prepare("SELECT * FROM tbl_user WHERE email = ?");
-         $stmt->bind_param("s", $email);
+         $stmt = $this->conn->prepare("SELECT * FROM tbl_user WHERE phone = ?");
+         $stmt->bind_param("s", $phone);
          $stmt->execute();
          $user = $stmt->get_result()->fetch_assoc();
          $stmt->close();
@@ -42,13 +42,13 @@ class DB_Functions {
  }
 
  /**
-  * Get user berdasarkan email dan password
+  * Get user berdasarkan phone dan password
   */
- public function getUserByEmailAndPassword($email, $password) {
+ public function getUserByphoneAndPassword($phone, $password) {
 
-     $stmt = $this->conn->prepare("SELECT * FROM tbl_user WHERE email = ?");
+     $stmt = $this->conn->prepare("SELECT * FROM tbl_user WHERE phone = ?");
 
-     $stmt->bind_param("s", $email);
+     $stmt->bind_param("s", $phone);
 
      if ($stmt->execute()) {
          $user = $stmt->get_result()->fetch_assoc();
@@ -71,10 +71,10 @@ class DB_Functions {
  /**
   * Cek User ada atau tidak
   */
- public function isUserExisted($email) {
-     $stmt = $this->conn->prepare("SELECT email from tbl_user WHERE email = ?");
+ public function isUserExisted($phone) {
+     $stmt = $this->conn->prepare("SELECT phone from tbl_user WHERE phone = ?");
 
-     $stmt->bind_param("s", $email);
+     $stmt->bind_param("s", $phone);
 
      $stmt->execute();
 
