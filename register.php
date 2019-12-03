@@ -16,9 +16,6 @@ $data = json_decode(file_get_contents("php://input"));
 if (!is_null($data)) {
  
     // menerima parameter POST ( nama, phone, password )
-    // $nama = $_POST['nama'];
-    // $phone = $_POST['phone'];
-    // $password = $_POST['password'];
     $nama = $data->nama;
     $phone = $data->phone;
     $password =$data->password;

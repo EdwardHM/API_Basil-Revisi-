@@ -117,6 +117,35 @@ class DB_Functions {
      return $hash;
  }
 
+
+
+
+  /**
+  * Simpan Kehadiran
+  */
+
+  public function simpanKehadiran($user_id,$keterangan,$is_in_office,$lokasi){
+    $uuid = uniqid('', true);
+ 
+    $stmt = $this->conn->prepare("INSERT INTO tbl_kehadiran(uuid, uuid_user, keterangan, is_in_office, lokasi) VALUES(?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $uuid, $user_id, $keterangan, $is_in_office, $lokasi);
+    $result = $stmt->execute();
+    $stmt->close();
+
+    // cek jika sudah sukses
+    if ($result) {
+        $stmt = $this->conn->prepare("SELECT * FROM tbl_kehadiran WHERE uuid_user = ?");
+        $stmt->bind_param("s", $user_id);
+        $stmt->execute();
+        $kehadiran = $stmt->get_result()->fetch_assoc();
+        $stmt->close();
+
+        return $kehadiran;
+    } else {
+        return false;
+    }    
+  }
+
 }
 
 ?>
