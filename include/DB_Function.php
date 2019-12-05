@@ -146,6 +146,22 @@ class DB_Functions {
     }    
   }
 
+
+// read products
+function read(){
+    
+    // select all query
+    // $query = ;
+
+    // prepare query statement
+    $stmt = $this->conn->prepare("SELECT * FROM tbl_kehadiran");
+
+    // execute query
+    $stmt->execute();
+
+    return $stmt;
+}
+
 }
 
 ?>
