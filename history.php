@@ -6,42 +6,42 @@ header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
 
-require_once 'include/DB_Function.php';
-$db = new DB_Functions();
-$response = array("error" => FALSE);
+require_once 'include/DB_Connect.php';
+$db = new DB_Connect();
+$connection = $db->connect();
 
-$stmt = $db->read();
-// $num = $stmt->rowCount();
- 
-// check if more than 0 record found
-if(0==0){
- 
-    // products array
-    $history_arr=array("error" => FALSE);
-    $history_arr["records"]=array();
- 
-    // retrieve our table contents
-    // fetch() is faster than fetchAll()
-    // http://stackoverflow.com/questions/2770630/pdofetchall-vs-pdofetch-in-a-loop
-    while ($row = $stmt->fetch(PDO::FETCH_ASSOC)){
-        // extract row
-        // this will make $row['name'] to
-        // just $name only
-        extract($row);
- 
-        $history_list=array(
-            "id" => $id,
-            "uuid" => $uuid,
-            "uuid_user" => $uuid_user,
-            "keterangan" => $keterangan,
-            "is_in_office" => $is_in_office,
-            "lokasi" => $lokasi,
-            "created_at" => $created_at
-        );
- 
-        array_push($history_arr["records"], $history_list);
+$sql = "SELECT * FROM tbl_kehadiran";
+		
+$query = mysqli_query($connection,$sql);
+
+$response = array("error" => FALSE);
+$response["records"]=array();
+$response["num"] =mysqli_num_rows($query);
+
+if(mysqli_num_rows($query) > 0){
+    while ($row = mysqli_fetch_assoc($query))
+    {           
+                $history_list=array(
+                "id" => $row['id'],
+                "uuid" => $row['uuid'],
+                "uuid_user" =>$row['uuid_user'],
+                "keterangan" => $row['keterangan'],
+                "is_in_office" => $row['is_in_office'],
+                "lokasi" => $row['lokasi'],
+                "created_at" => $row['created_at']
+            );
+    
+            
+            array_push($response["records"], $history_list);
+            
     }
-    echo json_encode($history_arr);
+    
+    echo json_encode($response);
+
+} else{
+    $response = array("error" => TRUE);
+    $response["error_msg"] = "Anda belum memiliki history presensi";
+    echo json_encode($response);
 }
 
 ?>
