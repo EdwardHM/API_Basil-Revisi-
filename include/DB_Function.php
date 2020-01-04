@@ -22,7 +22,7 @@ class DB_Functions {
         $encrypted_password = $hash["encrypted"]; // encrypted password
         $salt = $hash["salt"]; // salt
 
-        $stmt = $this->conn->prepare("INSERT INTO tbl_user(unique_id, nama, phone, encrypted_password, salt) VALUES(?, ?, ?, ?, ?)");
+        $stmt = $this->conn->prepare("INSERT INTO tbl_user(uuid_user, nama, phone, encrypted_password, salt) VALUES(?, ?, ?, ?, ?)");
         $stmt->bind_param("sssss", $uuid, $nama, $phone, $encrypted_password, $salt);
         $result = $stmt->execute();
         $stmt->close();

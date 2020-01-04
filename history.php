@@ -10,7 +10,7 @@ require_once 'include/DB_Connect.php';
 $db = new DB_Connect();
 $connection = $db->connect();
 
-$sql = "SELECT * FROM tbl_kehadiran";
+$sql = "SELECT * FROM tbl_kehadiran ORDER BY created_at DESC";
 		
 $query = mysqli_query($connection,$sql);
 

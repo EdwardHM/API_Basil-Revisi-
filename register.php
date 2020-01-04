@@ -32,7 +32,7 @@ if (!is_null($data)) {
         if ($user) {
             // simpan user berhasil
             $response["error"] = FALSE;
-            $response["uid"] = $user["unique_id"];
+            $response["uid"] = $user["uuid_user"];
             $response["user"]["nama"] = $user["nama"];
             $response["user"]["phone"] = $user["phone"];
             echo json_encode($response);
