@@ -145,6 +145,31 @@ class DB_Functions {
             return false;
         }    
     }
+
+    public function updateValidasi($nama, $waktu, $status){
+
+        if($status == "Belum Tervalidasi"){
+            $stmt = $this->conn->prepare("UPDATE tbl_kehadiran a INNER JOIN tbl_user b ON a.uuid_user = b.uuid_user 
+                                        SET a.status = 'Tervalidasi' WHERE b.nama = '".$nama."' 
+                                        AND a.created_at='".$waktu."'");
+            $result = $stmt->execute();
+            $stmt->close();
+
+            return true;
+
+        } elseif ($status == "Tervalidasi"){
+            $stmt = $this->conn->prepare("UPDATE tbl_kehadiran a INNER JOIN tbl_user b ON a.uuid_user = b.uuid_user 
+                                        SET a.status = 'Belum Tervalidasi' WHERE b.nama = '".$nama."' 
+                                        AND a.created_at='".$waktu."' ");
+                    
+            $result = $stmt->execute();
+            $stmt->close();
+
+            return true;
+        } else{
+            return false;
+        } 
+    }
 }
 
 ?>

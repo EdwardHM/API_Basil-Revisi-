@@ -10,7 +10,7 @@ require_once 'include/DB_Connect.php';
 $db = new DB_Connect();
 $connection = $db->connect();
 
-$sql = "SELECT * FROM tbl_kehadiran ORDER BY created_at DESC";
+$sql = "SELECT * from tbl_kehadiran INNER JOIN tbl_user using (uuid_user) ORDER BY created_at DESC";
 		
 $query = mysqli_query($connection,$sql);
 
@@ -28,7 +28,9 @@ if(mysqli_num_rows($query) > 0){
                 "keterangan" => $row['keterangan'],
                 "is_in_office" => $row['is_in_office'],
                 "lokasi" => $row['lokasi'],
-                "created_at" => $row['created_at']
+                "created_at" => $row['created_at'],
+                "status"=> $row['status'],
+                "Nama"=>$row['nama']
             );
     
             
