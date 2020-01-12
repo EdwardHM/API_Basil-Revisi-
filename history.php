@@ -29,7 +29,7 @@ if(mysqli_num_rows($query) > 0){
                 "is_in_office" => $row['is_in_office'],
                 "lokasi" => $row['lokasi'],
                 "created_at" => $row['created_at'],
-                "status"=> $row['status'],
+                "status"=> $row['valid'],
                 "Nama"=>$row['nama']
             );
     

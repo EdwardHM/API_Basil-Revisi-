@@ -126,9 +126,9 @@ class DB_Functions {
 
     public function simpanKehadiran($user_id,$keterangan,$is_in_office,$lokasi){
         $uuid = uniqid('', true);
-    
-        $stmt = $this->conn->prepare("INSERT INTO tbl_kehadiran(uuid, uuid_user, keterangan, is_in_office, lokasi) VALUES(?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $uuid, $user_id, $keterangan, $is_in_office, $lokasi);
+        $vali = "Belum Tervalidasi";
+        $stmt = $this->conn->prepare("INSERT INTO tbl_kehadiran(uuid, uuid_user, keterangan, is_in_office, lokasi, valid) VALUES(?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssss", $uuid, $user_id, $keterangan, $is_in_office, $lokasi, $vali);
         $result = $stmt->execute();
         $stmt->close();
 
@@ -150,7 +150,7 @@ class DB_Functions {
 
         if($status == "Belum Tervalidasi"){
             $stmt = $this->conn->prepare("UPDATE tbl_kehadiran a INNER JOIN tbl_user b ON a.uuid_user = b.uuid_user 
-                                        SET a.status = 'Tervalidasi' WHERE b.nama = '".$nama."' 
+                                        SET a.valid = 'Tervalidasi' WHERE b.nama = '".$nama."' 
                                         AND a.created_at='".$waktu."'");
             $result = $stmt->execute();
             $stmt->close();
@@ -159,7 +159,7 @@ class DB_Functions {
 
         } elseif ($status == "Tervalidasi"){
             $stmt = $this->conn->prepare("UPDATE tbl_kehadiran a INNER JOIN tbl_user b ON a.uuid_user = b.uuid_user 
-                                        SET a.status = 'Belum Tervalidasi' WHERE b.nama = '".$nama."' 
+                                        SET a.valid = 'Belum Tervalidasi' WHERE b.nama = '".$nama."' 
                                         AND a.created_at='".$waktu."' ");
                     
             $result = $stmt->execute();
