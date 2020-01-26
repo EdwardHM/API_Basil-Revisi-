@@ -124,11 +124,20 @@ class DB_Functions {
      * Simpan Kehadiran
     */
 
-    public function simpanKehadiran($user_id,$keterangan,$is_in_office,$lokasi){
+    public function simpanKehadiran($user_id,$keterangan,$is_in_office,$lokasi,$img){
+        // simpan gambar
+        $folderPath = "upload_foto/";
+        $img = str_replace('data:image/png;base64,', '', $img);
+		$img = str_replace(' ', '+', $img);
+		$data = base64_decode($img);
+		$file = $folderPath . uniqid() . '.png';
+		$success = file_put_contents($file, $data);
+        // selesai conversi simpan gambar
+
         $uuid = uniqid('', true);
         $vali = "Belum Tervalidasi";
-        $stmt = $this->conn->prepare("INSERT INTO tbl_kehadiran(uuid, uuid_user, keterangan, is_in_office, lokasi, valid) VALUES(?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", $uuid, $user_id, $keterangan, $is_in_office, $lokasi, $vali);
+        $stmt = $this->conn->prepare("INSERT INTO tbl_kehadiran(uuid, uuid_user, keterangan, is_in_office, lokasi, valid, foto) VALUES(?, ?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("sssssss", $uuid, $user_id, $keterangan, $is_in_office, $lokasi, $vali, $file);
         $result = $stmt->execute();
         $stmt->close();
 

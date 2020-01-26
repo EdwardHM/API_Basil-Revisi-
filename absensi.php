@@ -18,9 +18,10 @@ if(!is_null($data)){
     $keterangan = $data->keterangan ;
     $is_in_office = $data->is_in_office;
     $lokasi = $data->lokasi;
+    $img = $data->gambar;
    
     // buat kehadiran baru
-    $kehadiran = $db->simpanKehadiran($user_id, $keterangan, $is_in_office, $lokasi);
+    $kehadiran = $db->simpanKehadiran($user_id, $keterangan, $is_in_office, $lokasi, $img);
     if ($kehadiran) {
         // simpan kehadiran berhasil
         $response["error"] = FALSE;
