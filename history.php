@@ -30,7 +30,8 @@ if(mysqli_num_rows($query) > 0){
                 "lokasi" => $row['lokasi'],
                 "created_at" => $row['created_at'],
                 "status"=> $row['valid'],
-                "Nama"=>$row['nama']
+                "Nama"=>$row['nama'],
+                "foto"=>$row['foto']
             );
     
             

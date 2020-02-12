@@ -179,6 +179,20 @@ class DB_Functions {
             return false;
         } 
     }
+
+
+    public function updateUser($user_id,$password){
+        $uuid = "$user_id";
+        $hash = $this->hashSSHA($password);
+        $encrypted_password = $hash["encrypted"]; // encrypted password
+        $salt = $hash["salt"]; // salt
+
+        $stmt = $this->conn->prepare("UPDATE tbl_user  SET encrypted_password = '".$encrypted_password."', salt='".$salt."' WHERE uuid_user = '".$user_id."' ");
+        $result = $stmt->execute();
+        $stmt->close();
+
+        return true;
+    }
 }
 
 ?>
