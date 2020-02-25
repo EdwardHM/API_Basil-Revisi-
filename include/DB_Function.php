@@ -182,7 +182,6 @@ class DB_Functions {
 
 
     public function updateUser($user_id,$password){
-        $uuid = "$user_id";
         $hash = $this->hashSSHA($password);
         $encrypted_password = $hash["encrypted"]; // encrypted password
         $salt = $hash["salt"]; // salt
@@ -192,6 +191,26 @@ class DB_Functions {
         $stmt->close();
 
         return true;
+    }
+
+
+    public function updateProf($user_id,$phone,$nama){
+
+        $stmt = $this->conn->prepare("UPDATE tbl_user  SET nama = '".$nama."' WHERE uuid_user = '".$user_id."' ");
+        $result = $stmt->execute();
+        $stmt->close();
+        return true;
+        // if(!is_null($phone)){
+        //     $stmt = $this->conn->prepare("UPDATE tbl_user  SET phone = '".$phone."' WHERE uuid_user = '".$user_id."' ");
+        //     $result = $stmt->execute();
+        //     $stmt->close();
+        //     return true;
+        // } elseif(!is_null($nama)){
+        //     $stmt = $this->conn->prepare("UPDATE tbl_user  SET nama = '".$nama."' WHERE uuid_user = '".$user_id."' ");
+        //     $result = $stmt->execute();
+        //     $stmt->close();
+        //     return true;
+        // }
     }
 }
 

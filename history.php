@@ -20,15 +20,17 @@ $response["num"] =mysqli_num_rows($query);
 
 if(mysqli_num_rows($query) > 0){
     while ($row = mysqli_fetch_assoc($query))
-    {           
-                $history_list=array(
+    {         
+            // Ubah tanggal menjadi dd-mm-yyyy
+	        $tanggal = date('d-m-Y H:i:s', strtotime($row['created_at']));  
+            $history_list=array(
                 "id" => $row['id'],
                 "uuid" => $row['uuid'],
                 "uuid_user" =>$row['uuid_user'],
                 "keterangan" => $row['keterangan'],
                 "is_in_office" => $row['is_in_office'],
                 "lokasi" => $row['lokasi'],
-                "created_at" => $row['created_at'],
+                "created_at" => $tanggal,
                 "status"=> $row['valid'],
                 "Nama"=>$row['nama'],
                 "foto"=>$row['foto']
