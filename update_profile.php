@@ -17,13 +17,13 @@ if (!is_null($data)) {
     $user_id = $data->user_id;
     $phone = $data->telp_Baru;
     $nama = $data->nama_Baru;
-
-    // if ($db->isUserExisted($phone)) {
-    //     // user telah ada
-    //     $response["error"] = TRUE;
-    //     $response["error_msg"] = "User telah ada dengan phone " . $phone;
-    //     echo json_encode($response);
-    // } else {
+    
+    if ($db->isUserExisted($phone)) {
+        // user telah ada
+        $response["error"] = TRUE;
+        $response["error_msg"] = "User telah ada dengan phone " . $phone;
+        echo json_encode($response);
+    } else {
 
         $change = $db->updateProf($user_id,$phone,$nama);
  
@@ -35,7 +35,7 @@ if (!is_null($data)) {
             $response["error_msg"] = "Gagal Memperbarui";
             echo json_encode($response);
         }
-    // }
+    }
 } else {
     $response["error"] = TRUE;
     $response["error_msg"] = "Parameter ada yang kurang";

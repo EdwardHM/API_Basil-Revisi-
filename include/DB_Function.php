@@ -196,21 +196,21 @@ class DB_Functions {
 
     public function updateProf($user_id,$phone,$nama){
 
-        $stmt = $this->conn->prepare("UPDATE tbl_user  SET nama = '".$nama."' WHERE uuid_user = '".$user_id."' ");
-        $result = $stmt->execute();
-        $stmt->close();
-        return true;
-        // if(!is_null($phone)){
-        //     $stmt = $this->conn->prepare("UPDATE tbl_user  SET phone = '".$phone."' WHERE uuid_user = '".$user_id."' ");
-        //     $result = $stmt->execute();
-        //     $stmt->close();
-        //     return true;
-        // } elseif(!is_null($nama)){
-        //     $stmt = $this->conn->prepare("UPDATE tbl_user  SET nama = '".$nama."' WHERE uuid_user = '".$user_id."' ");
-        //     $result = $stmt->execute();
-        //     $stmt->close();
-        //     return true;
-        // }
+        // $stmt = $this->conn->prepare("UPDATE tbl_user  SET nama = '".$nama."' WHERE uuid_user = '".$user_id."' ");
+        // $result = $stmt->execute();
+        // $stmt->close();
+       
+        if(!is_null($nama)){
+            $stmt = $this->conn->prepare("UPDATE tbl_user  SET nama = '".$nama."' WHERE uuid_user = '".$user_id."' ");
+            $result = $stmt->execute();
+            $stmt->close();
+            return true;
+        } elseif(!is_null($phone)){
+            $stmt = $this->conn->prepare("UPDATE tbl_user  SET phone = '".$phone."' WHERE uuid_user = '".$user_id."' ");
+            $result = $stmt->execute();
+            $stmt->close();
+            return true;
+        }
     }
 }
 
