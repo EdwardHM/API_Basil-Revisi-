@@ -17,11 +17,12 @@ if (!is_null($data)) {
 
     $user_id = $data->user_id;
 
-    $sql = "SELECT MONTH(created_at) FROM tbl_kehadiran WHERE uuid_user = '".$user_id."'";
-    $sql2 = "SELECT DATE_FORMAT(created_at, '%m-%Y') AS Month,COUNT(case keterangan when 'presensi' then 1 else null end)
-         AS Presensi, COUNT(case keterangan when 'dinas' then 1 else null end) AS Dinas, 
-         COUNT(case keterangan when 'izin' then 1 else null end) AS Izin
-         FROM tbl_kehadiran GROUP BY DATE_FORMAT(created_at, '%m-%Y')";
+    $sql = "SELECT * FROM tbl_kehadiran WHERE uuid_user = '".$user_id."'";
+    $sql2 = "SELECT uuid_user AS uuid_user, DATE_FORMAT(created_at, '%m-%Y') 
+    AS Month,COUNT(case keterangan when 'presensi' then 1 else null end) AS Presensi, 
+    COUNT(case keterangan when 'dinas' then 1 else null end) AS Dinas, 
+    COUNT(case keterangan when 'izin' then 1 else null end) AS Izin FROM tbl_kehadiran 
+    WHERE uuid_user = '".$user_id."' GROUP BY DATE_FORMAT(created_at, '%m-%Y')";
 
 $query = mysqli_query($connection,$sql);
 $query2 = mysqli_query($connection,$sql2);
